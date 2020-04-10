@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "930560653912",
+    "firebase_url": "https://lojaflutter-c6700.firebaseio.com",
+    "project_id": "lojaflutter-c6700",
+    "storage_bucket": "lojaflutter-c6700.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:930560653912:android:44855173eafff0eb3a682d",
+        "android_client_info": {
+          "package_name": "br.com.ferreira.lojavirtual"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "930560653912-lk7ju5dh58k70su32meoht8hdd95ckp4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrgmZgN5pIO37r_HcrtYbjlIVICUC0-xQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "930560653912-lk7ju5dh58k70su32meoht8hdd95ckp4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
