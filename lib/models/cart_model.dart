@@ -73,7 +73,7 @@ class CartModel extends Model {
     notifyListeners();
   }
 
-  void updatePrice(){
+  void updatePrice() {
     notifyListeners();
   }
 
@@ -97,8 +97,8 @@ class CartModel extends Model {
 
   double getProductsPrice() {
     double price = 0.0;
-    for(CartProduct c in product) {
-      if(c.productData != null) {
+    for (CartProduct c in product) {
+      if (c.productData != null) {
         price += c.quantity * c.productData.price;
       }
     }
@@ -106,10 +106,59 @@ class CartModel extends Model {
   }
 
   double getDiscount() {
-      return getProductsPrice() * discountPercentage / 100;
+    return getProductsPrice() * discountPercentage / 100;
   }
+
   double getShipPrice() {
     return 9.99;
   }
 
+  Future<String> finishOrder() async {
+    if (product.length == 0) return null;
+
+    isLoading = true;
+    notifyListeners();
+
+    double productsPrice = getProductsPrice();
+    double shipPrice = getShipPrice();
+    double discount = getDiscount();
+
+    DocumentReference refOrder =
+        await Firestore.instance.collection("orders").add({
+      "clientId": user.firebaseUser.uid,
+      "products": product.map((cartProduct) => cartProduct.toMap()).toList(),
+      "shipPrice": shipPrice,
+      "productsPrice": productsPrice,
+      "discount": discount,
+      "totalPrice": productsPrice - discount + shipPrice,
+      "status": 1
+    });
+
+    await Firestore.instance
+        .collection("users")
+        .document(user.firebaseUser.uid)
+        .collection("orders")
+        .document(refOrder.documentID)
+        .setData({"orderId": refOrder.documentID});
+
+    QuerySnapshot query = await Firestore.instance
+        .collection("users")
+        .document(user.firebaseUser.uid)
+        .collection("cart")
+        .getDocuments();
+
+    for (DocumentSnapshot doc in query.documents) {
+      doc.reference.delete();
+    }
+
+    product.clear();
+
+    cuponCode = null;
+    discountPercentage = 0;
+
+    isLoading = false;
+    notifyListeners();
+
+    return refOrder.documentID;
+  }
 }
