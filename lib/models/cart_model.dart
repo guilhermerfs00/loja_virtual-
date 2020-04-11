@@ -9,6 +9,9 @@ class CartModel extends Model {
 
   List<CartProduct> product = [];
 
+  String cuponCode;
+  int discountPercentage = 0;
+
   CartModel(this.user) {
     if (user.isLoggedIn()) {
       _loadCartItens();
@@ -81,5 +84,10 @@ class CartModel extends Model {
         query.documents.map((doc) => CartProduct.fromDocument(doc)).toList();
 
     notifyListeners();
+  }
+
+  void setCupon(String cuponCode, int discountPercentage) {
+    this.cuponCode = cuponCode;
+    this.discountPercentage = discountPercentage;
   }
 }
